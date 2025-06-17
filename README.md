@@ -164,7 +164,7 @@ Mari kita kenali antarmuka Jenkins.
 	
   - **System:** Konfigurasi global Jenkins (URL Jenkins, variabel lingkungan global, dsb.).
   - **Plugins:** Mengelola plugin (instal, hapus, update).
-  - **Nodes:** Mengelola _build agents_ (mesin tempat _job_ benar-benar dijalankan).
+  - **Nodes(Server):** Mengelola _build agents_ (mesin tempat _job_ benar-benar dijalankan).
   - **Credentials:** Mengelola kredensial (username/password, SSH keys, secret text) yang digunakan oleh Jenkins untuk mengakses sumber daya eksternal (misalnya, repositori Git).
   - **Tools:** Mengelola instalasi otomatis alat seperti JDK, Maven, Gradle, dll.
   - **Users:** Mengelola akun pengguna Jenkins.
@@ -210,11 +210,11 @@ Jenkins sekarang akan secara otomatis mengunduh dan mengelola instalasi JDK dan 
 
 Konsep Pipeline:
 
-Jenkins Pipeline adalah rangkaian plugin yang memungkinkan Kita untuk mengimplementasikan dan mengintegrasikan pipeline continuous delivery ke Jenkins. Pipeline menyediakan serangkaian langkah yang dapat diperluas untuk menjalankan build otomatis, tes, dan deploy aplikasi Kita. Definisi Pipeline ditulis dalam file teks bernama Jenkinsfile, yang di-check-in ke repositori kontrol sumber proyek Kita. Ini dikenal sebagai "Pipeline as Code".
+Jenkins Pipeline adalah rangkaian plugin yang memungkinkan Kita untuk mengimplementasikan dan mengintegrasikan pipeline continuous delivery ke Jenkins. Pipeline menyediakan serangkaian langkah yang dapat diperluas untuk menjalankan build otomatis, tes, dan deploy aplikasi Kita. Definisi Pipeline ditulis dalam file teks bernama Jenkinsfile, yang di-check-in ke repositori kontrol source code Kita. Ini dikenal sebagai "Pipeline as Code".
 
 **Manfaat "Pipeline as Code":**
 
-- **Auditabilitas:** Perubahan pada Pipeline dapat dilacak melalui kontrol versi.
+- **Auditabilitas:** Perubahan pada Pipeline dapat dilacak melalui version control.
 - **Konsistensi:** Pipeline yang sama dapat digunakan untuk semua cabang dan lingkungan.
 - **Kolaborasi:** Pengembang dapat berkontribusi pada definisi Pipeline.
 
@@ -341,17 +341,21 @@ Sekarang kita akan membuat _job_ Pipeline pertama kita di Jenkins untuk membangu
      git commit -m "Add Jenkinsfile for CI/CD pipeline"
      git push origin main # Atau nama branch default Kita
      ```
+![[Pasted image 20250617105040.png]]
 
 2. **Membuat Item Pipeline Baru di Jenkins:**
 
-   1. Di Dashboard Jenkins, klik **"New Item"** di sidebar kiri.
-   2. Masukkan nama Item (misalnya, `Simple-Java-Maven-CI`).
-   3. Pilih **"Pipeline"** sebagai tipe proyek.
-   4. Klik **"OK"**.
-   5. Konfigurasi Pipeline:
+   3. Di Dashboard Jenkins, klik **"New Item"** di sidebar kiri.
+   4. Masukkan nama Item (misalnya, `Simple-Java-Maven-CI`).
+   5. Pilih **"Pipeline"** sebagai tipe proyek.
+   6. Klik **"OK"**.
+	![[Pasted image 20250617105317.png]]
+	
+   7. Konfigurasi Pipeline:
 
       Kita akan diarahkan ke halaman konfigurasi job.
-
+	![[Pasted image 20250617105710.png]]
+	
       - **General:** (Opsional) Tambahkan deskripsi.
       - **Build Triggers:** Biarkan kosong dulu, kita akan memicu secara manual.
       - **Pipeline:** Ini adalah bagian terpenting.
@@ -363,16 +367,24 @@ Sekarang kita akan membuat _job_ Pipeline pertama kita di Jenkins untuk membangu
         - **Script Path:** `Jenkinsfile` (ini adalah nama file kita di root repositori).
         - Klik **"Save"**.
 
-3. **Menjalankan Build Pertama:**
+8. **Menjalankan Build Pertama:**
 
-   1. Kita akan kembali ke halaman _job_ `Simple-Java-Maven-CI`.
-   2. Di sidebar kiri, klik **"Build Now"**.
-   3. **Menganalisis Hasil Build:**
+   9. Kita akan kembali ke halaman _job_ `Simple-Java-Maven-CI`.
+	![[Pasted image 20250617105747.png]]
+	
+   10. Di sidebar kiri, klik **"Build Now"**.
+	![[Pasted image 20250617105843.png]]
+	![[Pasted image 20250617105905.png]]
+	
+   11. **Menganalisis Hasil Build:**
 
       - Di bagian "Build History" di sidebar kiri, Kita akan melihat build baru muncul (misalnya, `#1`).
+	    ![[Pasted image 20250617110518.png]]
+	    
       - Klik pada nomor build tersebut (misalnya, `#1`).
       - Klik **"Console Output"** di sidebar kiri.
-
+		![[Pasted image 20250617110543.png]]
+		
       Kita akan melihat output konsol yang merinci semua langkah yang dieksekusi oleh Jenkins sesuai `Jenkinsfile` Kita:
 
       - Pengambilan kode Git.
@@ -393,16 +405,31 @@ Jika repositori GitHub Kita privat, Jenkins tidak akan bisa mengaksesnya tanpa k
   1. **Buat Personal Access Token di GitHub:**
 
      - Pergi ke GitHub Kita -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic) -> Generate new token (classic).
+	    ![[Pasted image 20250617111423.png]]
+	    
      - Berikan nama yang deskriptif (misalnya, `jenkins-token`).
+	    ![[Pasted image 20250617111558.png]]
+	    
      - Berikan izin (`scopes`) yang diperlukan, minimal `repo` (untuk mengakses repositori).
+
+		![[Pasted image 20250617111636.png]]
+		
      - Generate token dan **salin tokennya segera**. Kita tidak akan bisa melihatnya lagi.
 
   2. **Tambahkan Kredensial di Jenkins:**
 
+	![[Pasted image 20250617111911.png]]
      - Dashboard Jenkins -> Manage Jenkins -> Credentials.
+     
+	    ![[Pasted image 20250617111938.png]]
      - Klik **"(global)"** di bawah "Stores scoped to Jenkins".
+     
+	    ![[Pasted image 20250617112009.png]]
      - Klik **"Add Credentials"** di sidebar kiri.
+     
+	    ![[Pasted image 20250617112032.png]]
      - **Kind:** Pilih `Secret text`.
+     ![[Pasted image 20250617113055.png]]
      - **Secret:** Tempelkan Personal Access Token GitHub yang tadi Kita salin.
      - **ID:** Berikan ID yang unik dan mudah diingat (misalnya, `github-personal-access-token`). Ini akan digunakan di Pipeline Kita.
      - **Description:** (Opsional) Deskripsi singkat.
@@ -416,23 +443,62 @@ Jika repositori GitHub Kita privat, Jenkins tidak akan bisa mengaksesnya tanpa k
 - **SSH Key (Disarankan untuk server produksi dan keamanan lebih tinggi):**
   1. **Buat SSH Key Pair di Host Jenkins (atau di mesin Kita):**
      - Buka Git Bash atau terminal Linux/macOS.
+	    ![[Pasted image 20250617115915.png]]
+  2. 
      - `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`
      - Ikuti instruksi. Ini akan membuat `id_rsa` (private key) dan `id_rsa.pub` (public key) di `~/.ssh/`.
-  2. **Tambahkan Public Key ke GitHub Repo:**
+  3. **Tambahkan Public Key ke GitHub Repo:**
+  ![[Pasted image 20250617114506.png]]
      - Pergi ke repositori GitHub Kita -> Settings -> Deploy keys -> Add deploy key.
+     
+     ![[Pasted image 20250617120018.png]]
      - Tempelkan isi file `id_rsa.pub`. Beri judul. Centang "Allow write access" jika Jenkins perlu melakukan push.
-  3. **Tambahkan Private Key ke Jenkins Credentials:**
+  4. **Tambahkan Private Key ke Jenkins Credentials:**
+	  ![[Pasted image 20250617111938.png]]
      - Dashboard Jenkins -> Manage Jenkins -> Credentials -> (global) -> Add Credentials.
+     
+     ![[Pasted image 20250617120150.png]]
      - **Kind:** `SSH Username with private key`.
+     
+     ![[Pasted image 20250617120346.png]]
      - **ID:** Berikan ID (misalnya, `github-ssh-key`).
      - **Username:** `git` (ini standar untuk Git via SSH).
      - **Private Key:** Pilih "Enter directly" -> "Add" dan tempelkan isi dari file `id_rsa`.
      - **Passphrase:** Jika Kita mengatur passphrase saat membuat key, masukkan di sini.
      - **Create**.
-  4. **Perbarui Konfigurasi Job Pipeline:**
+  5. **Perbarui Konfigurasi Job Pipeline:**
      - Ganti Repository URL menjadi format SSH: `git@github.com:Danu-prasetyo/simple-java-maven-app.git`
      - Pilih kredensial SSH yang Kita tambahkan.
+6. Perbarui Jenkinsfile
+	Ganti stage checkout menggunakan SSH
+	```
+		// Stage 1: Checkout source code dari repositori Git(Comment/hapus baris sebelumnya)
+	        // stage('Checkout/Pulling Code') {
+	        //     steps {
+	        //         // pull kode dari repositori Git
+	        //         git branch: 'master', url: 'https://github.com/Danu-prasetyo/simple-java-maven-app.git'
+	        //     }
+	        // }
 
+		// Ganti dengan baris ini
+	        stage('Prepare SSH Host Keys') {
+	            steps {
+	                // Menambahkan kunci host GitHub ke known_hosts di workspace Jenkins
+	                sh 'ssh-keyscan -H github.com >> ~/.ssh/known_hosts'
+	                // Opsional: Untuk melihat isi known_hosts
+	                // sh 'cat ~/.ssh/known_hosts'
+	            }
+	        }
+	        stage('Checkout') {
+	            steps {
+	                // Pastikan Anda menggunakan URL SSH Git
+	                git branch: 'main', url: 'git@github.com:Danu-prasetyo/simple-java-maven-app.git', credentialsId: 'github-ssh-key' // Sesuaikan credentialsId
+	            }
+	        }
+	    // proses lainnya
+	```
+
+	Jangan lupa push changes ini ke repository. lalu jalankan ulang build jenkins.
 ---
 
 **7. Membangun Docker Image Aplikasi (CD - Lanjutan)**
