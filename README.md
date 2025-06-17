@@ -445,7 +445,9 @@ Jika repositori GitHub Kita privat, Jenkins tidak akan bisa mengaksesnya tanpa k
      - Buka Git Bash atau terminal Linux/macOS.
 	    ![[Pasted image 20250617115915.png]]
   2. 
-     - `ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`
+	```
+	     ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+	```
      - Ikuti instruksi. Ini akan membuat `id_rsa` (private key) dan `id_rsa.pub` (public key) di `~/.ssh/`.
   3. **Tambahkan Public Key ke GitHub Repo:**
   ![[Pasted image 20250617114506.png]]
