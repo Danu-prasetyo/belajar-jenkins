@@ -440,6 +440,7 @@ Jika repositori GitHub Kita privat, Jenkins tidak akan bisa mengaksesnya tanpa k
      - Kembali ke konfigurasi _job_ `Simple-Java-Maven-CI` Kita.
      - Di bagian **"Pipeline" -> "SCM" -> "Git" -> "Credentials"**, pilih kredensial yang baru Kita tambahkan berdasarkan ID-nya (`github-personal-access-token`).
      - Klik **"Save"**.
+    
 - **SSH Key (Disarankan untuk server produksi dan keamanan lebih tinggi):**
   1. **Buat SSH Key Pair di Host Jenkins (atau di mesin Kita):**
      - Buka Git Bash atau terminal Linux/macOS.

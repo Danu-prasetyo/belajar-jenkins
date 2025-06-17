@@ -1,0 +1,14 @@
+pipeline{
+    agent any
+    
+    parameters{
+        booleanParam(name: 'booleanTest', defaultValue: false)
+    }
+    stages{
+        stage("Demo"){
+            steps{
+                echo "booleanParams set to : ${params.booleanTest}"
+            }
+        }
+    }
+}

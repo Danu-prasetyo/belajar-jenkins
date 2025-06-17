@@ -1,0 +1,14 @@
+pipeline{
+    agent any
+    
+    parameters{
+        choice(name: 'choiceTest', choices: ['A', 'B', 'C'], description: 'choice test')
+    }
+    stages{
+        stage("Demo"){
+            steps{
+                echo "choice set to : ${params.choiceTest}"
+            }
+        }
+    }
+}

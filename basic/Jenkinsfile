@@ -1,0 +1,91 @@
+pipeline {
+    agent any
+
+    // Variabel env global
+    environment {
+        DEPLOY_ENV = 'staging'         // Variabel lingkungan
+        SHOULD_DEPLOY = 'true'         // Bisa diubah berdasarkan kondisi tertentu
+        BUILD_TYPE = 'release'         // release / debug
+    }
+
+    // stages : kumpulan proses
+    stages {
+        stage('Initialize') {
+            steps {
+                script {
+                    echo "🔧 Memulai pipeline untuk lingkungan: ${env.DEPLOY_ENV}"
+                    echo "Tipe build: ${env.BUILD_TYPE}"
+
+                    // Contoh if-else
+                    if (env.BUILD_TYPE == 'release') {
+                        echo "🚀 Ini adalah build release. Semua fitur diaktifkan."
+                    } 
+                    else {
+                    echo "🔍 Ini adalah build debug. Fitur terbatas."
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    echo "🏗️  Building project..."
+                    // Simulasi proses build
+                    def buildSuccess = true
+
+                    // Simpan dalam variabel environment jika gagal
+                    if (!buildSuccess) {
+                        env.SHOULD_DEPLOY = 'false'
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    def testResult = runTests()
+                    if (!testResult) {
+                        echo "❌ Test gagal. Menonaktifkan deploy."
+                        env.SHOULD_DEPLOY = 'false'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                expression {
+                    return env.SHOULD_DEPLOY == 'true' && env.DEPLOY_ENV == 'staging'
+                }
+            }
+            steps {
+                script {
+                    deployApp(env.DEPLOY_ENV)
+                }
+            }
+        }
+  }
+
+    post {
+        always {
+            echo "✅ Pipeline selesai untuk environment: ${env.DEPLOY_ENV}"
+        }
+    }
+}
+
+    //
+    // 🔧 Fungsi Custom
+    //
+
+    def runTests() {
+        echo "🧪 Menjalankan test otomatis..."
+        // Simulasi test (kamu bisa jalankan unit test sebenarnya di sini)
+        return true
+    }
+
+    def deployApp(envName) {
+        echo "🚀 Deploying ke ${envName} environment..."
+        // Contoh: jalankan perintah deploy nyata di sini
+    }
