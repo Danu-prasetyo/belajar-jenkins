@@ -1,14 +1,14 @@
 ## **CI/CD & Jenkins**
 
-_Continuous Integration_ (CI) dan _Continuous Delivery/Deployment_ (CD)! Konsep CI/CD adalah praktik dalam pengembangan aplikasi modern yang bertujuan untuk mempercepat pengiriman perangkat lunak yang berkualitas tinggi dengan mengotomatiskan proses build, testing, dan deployment.
+_Continuous Integration_ (CI) dan _Continuous Delivery/Deployment_ (CD)! Konsep CI/CD adalah praktik dalam pengembangan aplikasi modern yang bertujuan untuk mempercepat pengiriman aplikasi yang berkualitas tinggi dengan ==mengotomatiskan== proses build, testing, dan deployment.
 
 - **Continuous Integration (CI):** Praktik di mana pengembang secara teratur mengintegrasikan perubahan kode mereka ke repositori pusat. Setiap integrasi kemudian diverifikasi oleh build otomatis dan tes otomatis untuk mendeteksi masalah integrasi sedini mungkin.
-- **Continuous Delivery (CD):** Sebuah ekstensi dari CI yang memastikan bahwa kode dapat dirilis ke produksi kapan saja setelah melewati semua tahapan build dan pengujian.
+- **Continuous Delivery (CD):** Sebuah ekstensi dari CI yang memastikan bahwa kode dapat dirilis ke produksi kapan saja setelah melewati semua tahapan build dan testing.
 - **Continuous Deployment (CD):** Otomatisasi penuh dari proses pengiriman, di mana setiap perubahan kode yang melewati semua pengujian secara otomatis dideploy ke produksi tanpa intervensi manual.
 
 **Apa itu Jenkins?**
 
-Jenkins adalah automation server open-source yang paling banyak digunakan untuk membuat pipeline CI/CD. Jenkins menyediakan ribuan plugin yang memungkinkan integrasi dengan hampir semua _tools_ dan teknologi dalam ekosistem pengembangan perangkat lunak.
+Jenkins adalah automation server ==open-source== yang paling banyak digunakan untuk membuat pipeline CI/CD. Jenkins menyediakan ribuan plugin yang memungkinkan integrasi dengan hampir semua _tools_ dan teknologi dalam ekosistem pengembangan perangkat lunak(software).
 
 **Mengapa Menggunakan Jenkins di Docker?**
 
@@ -54,13 +54,13 @@ Sekarang kita akan menjalankan Jenkins sebagai kontainer Docker.
 - **Jalankan Kontainer Jenkins dengan Volume Persisten**:
   Ini adalah langkah krusial. Kita akan me-mount direktori `D:\DIGIFORM\devops\learn_jenkins\jenkins` yang kita buat sebelumnya ke dalam kontainer Jenkins.
   ```
-  docker run -d -p 8090:8090 -p 50000:50000 --name jenkins-web -v D:/DIGIFORM/devops/learn_jenkins/jenkins:/var/jenkins_home jenkins/jenkins:lts
+  docker run -d -p 8090:8080 -p 50000:50000 --name jenkins-web -v D:/DIGIFORM/devops/learn_jenkins/jenkins:/var/jenkins_home jenkins/jenkins:lts
   ```
 ![[Pasted_image_20250616220905.png]](images/Pasted_image_20250616220905.png)  
 
 Mari kita bedah perintah ini:
   - `docker run -d`: Menjalankan kontainer di latar belakang (`detached` mode).
-  - `-p 8090:8090`: **Port Forwarding**. Me-_mappingkan_ port `8090` di host Kita ke port `8090` di dalam kontainer agar Jenkins UI berjalan di port ini.
+  - `-p 8090:8080`: **Port Forwarding**. Me-_mappingkan_ port `8090` di host Kita ke port `8080` di dalam kontainer agar Jenkins UI berjalan di port ini.
   - `-p 50000:50000`: **Port Forwarding** tambahan. Port `50000` digunakan oleh Jenkins Agent untuk komunikasi. Meskipun mungkin belum diperlukan segera, baik untuk dipersiapkan.
   - `--name my-jenkins`: Memberikan nama `my-jenkins` pada kontainer. Ini memudahkan untuk mengidentifikasi dan mengelolanya.
   - `-v D:/DIGIFORM/devops/learn_jenkins/jenkins:/var/jenkins_home`: **Docker Volume (Bind Mount)**.
