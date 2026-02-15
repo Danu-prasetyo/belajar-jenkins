@@ -472,7 +472,8 @@ Jika repositori GitHub Kita privat, Jenkins tidak akan bisa mengaksesnya tanpa k
   5. **Perbarui Konfigurasi Job Pipeline:**
      - Ganti Repository URL menjadi format SSH: `git@github.com:Danu-prasetyo/simple-java-maven-app.git`
      - Pilih kredensial SSH yang Kita tambahkan.
-6. Perbarui Jenkinsfile
+ 6. Konfigurasi known host git di container jenkins
+ 7. Perbarui Jenkinsfile
 	Ganti stage checkout menggunakan SSH
 	```
 		// Stage 1: Checkout source code dari repositori Git(Comment/hapus baris sebelumnya)
@@ -501,7 +502,10 @@ Jika repositori GitHub Kita privat, Jenkins tidak akan bisa mengaksesnya tanpa k
 	    // proses lainnya
 	```
 
-	Jangan lupa push changes ini ke repository. lalu jalankan ulang build jenkins.
+	Jangan lupa push changes ini ke repository.
+
+8. Tambahkan Kunci Host Secara Manual
+	
 ---
 
 **7. Membangun Docker Image Aplikasi (CD - Lanjutan)**
