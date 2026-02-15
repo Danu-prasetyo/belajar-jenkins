@@ -341,7 +341,7 @@ Sekarang kita akan membuat _job_ Pipeline pertama kita di Jenkins untuk membangu
      git commit -m "Add Jenkinsfile for CI/CD pipeline"
      git push origin main # Atau nama branch default Kita
      ```
-![[Pasted image 20250617105040.png]]
+![[Pasted_image_20250617105040.png]](images/Pasted_image_20250617105317.png)
 
 2. **Membuat Item Pipeline Baru di Jenkins:**
 
@@ -349,12 +349,12 @@ Sekarang kita akan membuat _job_ Pipeline pertama kita di Jenkins untuk membangu
    4. Masukkan nama Item (misalnya, `Simple-Java-Maven-CI`).
    5. Pilih **"Pipeline"** sebagai tipe proyek.
    6. Klik **"OK"**.
-	![[Pasted image 20250617105317.png]]
+	![[Pasted_image_20250617105317.png]](images/Pasted_image_20250617105317.png)
 	
    7. Konfigurasi Pipeline:
 
       Kita akan diarahkan ke halaman konfigurasi job.
-	![[Pasted image 20250617105710.png]]
+	![[Pasted_image_20250617105710.png]](images/Pasted_image_20250617105710.png)
 	
       - **General:** (Opsional) Tambahkan deskripsi.
       - **Build Triggers:** Biarkan kosong dulu, kita akan memicu secara manual.
@@ -370,20 +370,20 @@ Sekarang kita akan membuat _job_ Pipeline pertama kita di Jenkins untuk membangu
 8. **Menjalankan Build Pertama:**
 
    9. Kita akan kembali ke halaman _job_ `Simple-Java-Maven-CI`.
-	![[Pasted image 20250617105747.png]]
+	![[Pasted_image_20250617105747.png]](images/Pasted_image_20250617105747.png)
 	
    10. Di sidebar kiri, klik **"Build Now"**.
-	![[Pasted image 20250617105843.png]]
-	![[Pasted image 20250617105905.png]]
+	![[Pasted_image_20250617105843.png]](images/Pasted_image_20250617105843.png)
+	![[Pasted_image_20250617105905.png]](images/Pasted_image_20250617105905.png)
 	
    11. **Menganalisis Hasil Build:**
 
       - Di bagian "Build History" di sidebar kiri, Kita akan melihat build baru muncul (misalnya, `#1`).
-	    ![[Pasted image 20250617110518.png]]
+	    ![[Pasted_image_20250617110518.png]](images/Pasted_image_20250617110518.png)
 	    
       - Klik pada nomor build tersebut (misalnya, `#1`).
       - Klik **"Console Output"** di sidebar kiri.
-		![[Pasted image 20250617110543.png]]
+		![[Pasted_image_20250617110543.png]](images/Pasted_image_20250617110543.png)
 		
       Kita akan melihat output konsol yang merinci semua langkah yang dieksekusi oleh Jenkins sesuai `Jenkinsfile` Kita:
 
@@ -405,31 +405,31 @@ Jika repositori GitHub Kita privat, Jenkins tidak akan bisa mengaksesnya tanpa k
   1. **Buat Personal Access Token di GitHub:**
 
      - Pergi ke GitHub Kita -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic) -> Generate new token (classic).
-	    ![[Pasted image 20250617111423.png]]
+	    ![[Pasted_image_20250617111423.png]](images/Pasted_image_20250617111423.png)
 	    
      - Berikan nama yang deskriptif (misalnya, `jenkins-token`).
-	    ![[Pasted image 20250617111558.png]]
+	    ![[Pasted_image_20250617111558.png]](images/Pasted_image_20250617111558.png)
 	    
      - Berikan izin (`scopes`) yang diperlukan, minimal `repo` (untuk mengakses repositori).
 
-		![[Pasted image 20250617111636.png]]
+		![[Pasted_image_20250617111636.png]](images/Pasted_image_20250617111636.png)
 		
      - Generate token dan **salin tokennya segera**. Kita tidak akan bisa melihatnya lagi.
 
   2. **Tambahkan Kredensial di Jenkins:**
 
-	![[Pasted image 20250617111911.png]]
+	![[Pasted_image_20250617111911.png]](images/Pasted_image_20250617111911.png)
      - Dashboard Jenkins -> Manage Jenkins -> Credentials.
      
-	    ![[Pasted image 20250617111938.png]]
+	    ![[Pasted_image_20250617111938.png]](images/Pasted_image_20250617111938.png)
      - Klik **"(global)"** di bawah "Stores scoped to Jenkins".
      
-	    ![[Pasted image 20250617112009.png]]
+	    ![[Pasted_image_20250617112009.png]](images/Pasted_image_20250617112009.png)
      - Klik **"Add Credentials"** di sidebar kiri.
      
-	    ![[Pasted image 20250617112032.png]]
+	    ![[Pasted_image_20250617112032.png]](images/Pasted_image_20250617112032.png)
      - **Kind:** Pilih `Secret text`.
-     ![[Pasted image 20250617113055.png]]
+     ![[Pasted_image_20250617113055.png]](images/Pasted_image_20250617113055.png)
      - **Secret:** Tempelkan Personal Access Token GitHub yang tadi Kita salin.
      - **ID:** Berikan ID yang unik dan mudah diingat (misalnya, `github-personal-access-token`). Ini akan digunakan di Pipeline Kita.
      - **Description:** (Opsional) Deskripsi singkat.
@@ -444,26 +444,26 @@ Jika repositori GitHub Kita privat, Jenkins tidak akan bisa mengaksesnya tanpa k
 - **SSH Key (Disarankan untuk server produksi dan keamanan lebih tinggi):**
   1. **Buat SSH Key Pair di Host Jenkins (atau di mesin Kita):**
      - Buka Git Bash atau terminal Linux/macOS.
-	    ![[Pasted image 20250617115915.png]]
+	    ![[Pasted_image_20250617115915.png]](images/Pasted_image_20250617115915.png)
   2. 
 	```
 	     ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 	```
      - Ikuti instruksi. Ini akan membuat `id_rsa` (private key) dan `id_rsa.pub` (public key) di `~/.ssh/`.
   3. **Tambahkan Public Key ke GitHub Repo:**
-  ![[Pasted image 20250617114506.png]]
+  ![[Pasted_image_20250617114506.png]](images/Pasted_image_20250617114506.png)
      - Pergi ke repositori GitHub Kita -> Settings -> Deploy keys -> Add deploy key.
      
-     ![[Pasted image 20250617120018.png]]
+     ![[Pasted_image_20250617120018.png]](images/Pasted_image_20250617120018.png)
      - Tempelkan isi file `id_rsa.pub`. Beri judul. Centang "Allow write access" jika Jenkins perlu melakukan push.
   4. **Tambahkan Private Key ke Jenkins Credentials:**
-	  ![[Pasted image 20250617111938.png]]
+	  ![[Pasted_image_20250617111938.png]](images/Pasted_image_20250617111938.png)
      - Dashboard Jenkins -> Manage Jenkins -> Credentials -> (global) -> Add Credentials.
      
-     ![[Pasted image 20250617120150.png]]
+     ![[Pasted_image_20250617120150.png]](images/Pasted_image_20250617120150.png)
      - **Kind:** `SSH Username with private key`.
      
-     ![[Pasted image 20250617120346.png]]
+     ![[Pasted_image_20250617120346.png]](images/Pasted_image_20250617120346.png)
      - **ID:** Berikan ID (misalnya, `github-ssh-key`).
      - **Username:** `git` (ini standar untuk Git via SSH).
      - **Private Key:** Pilih "Enter directly" -> "Add" dan tempelkan isi dari file `id_rsa`.
